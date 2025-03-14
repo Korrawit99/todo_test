@@ -41,7 +41,7 @@ class HomeView extends StatelessWidget {
                   () =>
                       todoController.toggleTodo( index),
               onDelete: () {
-                todoController.deleteTodo(index);
+                todoController.deleteTodo(todo.docId ?? '');
                 Get.snackbar(
                   'Deleted',
                   'Deleted "${todo.title}"',
