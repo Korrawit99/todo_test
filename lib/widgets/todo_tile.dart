@@ -14,11 +14,11 @@ class TodoTile extends StatelessWidget {
       title: Text(
         todo.title,
         style: TextStyle(
-          decoration: todo.isCompleted ? TextDecoration.lineThrough : null,
+          decoration: todo.isDone ? TextDecoration.lineThrough : null,
         ),
       ),
       leading: Checkbox(
-        value: todo.isCompleted,
+        value: todo.isDone,
         onChanged: (_) => onToggle(),
       ),
       trailing: IconButton(

@@ -18,8 +18,5 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(title: 'Flutter Demo', home: LoginView());
-/*************  ✨ Codeium Command ⭐  *************/
-  /// Build a [GetMaterialApp] with title "Flutter GetX" and [HomeView] as home.
-  ///
-/******  6ad9aa29-4d74-48b2-ac2c-b5f14b47b2b9  *******/  }
+  }
 }

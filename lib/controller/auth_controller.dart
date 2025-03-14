@@ -1,44 +1,51 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:test2/views/home_view.dart';
+import 'package:test2/views/login.dart';
 
 class AuthController extends GetxController {
-  final FirebaseAuth _auth = FirebaseAuth.instance;
+  FirebaseAuth firebaseAuth = FirebaseAuth.instance;
 
-  // สร้างตัวแปร Rxn<User> เพื่อติดตามสถานะของ User (Reactive Variable)
   var user = Rxn<User>();
 
   @override
   void onInit() {
     super.onInit();
-    // ฟังก์ชันนี้จะทำให้ user สามารถติดตามการเปลี่ยนแปลงของสถานะการล็อกอินได้
-    user.bindStream(_auth.authStateChanges());
+    user.bindStream(firebaseAuth.authStateChanges());
   }
 
-  // 🟢 ฟังก์ชันสมัครสมาชิก
   Future<void> register(String email, String password) async {
     try {
-      await _auth.createUserWithEmailAndPassword(
+      await firebaseAuth.createUserWithEmailAndPassword(
         email: email,
         password: password,
       );
-      Get.snackbar("สำเร็จ", "สมัครสมาชิกสำเร็จ");
+      Get.snackbar("สำเร็จ", "สมัครสมาชิกเสร็จสิ้น");
     } catch (e) {
-      Get.snackbar("ผิดพลาด", e.toString());
+      Get.snackbar("ล้มเหลว", e.toString());
     }
   }
 
-  // 🟢 ฟังก์ชันล็อกอิน
   Future<void> login(String email, String password) async {
     try {
-      await _auth.signInWithEmailAndPassword(
+      await firebaseAuth.signInWithEmailAndPassword(
         email: email,
         password: password,
       );
-      Get.snackbar("สำเร็จ", "ล็อกอินสำเร็จ");
-      Get.offAll(HomeView());
+      Get.snackbar("สำเร็จ", "เข้าสู่ระบบสำเร็จ");
+      Get.off(HomeView());
     } catch (e) {
-      Get.snackbar("ผิดพลาด", e.toString());
+      Get.snackbar("ล้มเหลว", e.toString());
+    }
+  }
+
+  Future<void> logout() async {
+    try {
+      await firebaseAuth.signOut();
+      Get.snackbar("สำเร็จ", "ออกจากระบบสำเร็จ");
+      Get.off(LoginView());
+    } catch (e) {
+      Get.snackbar("ล้มเหลว", e.toString());
     }
   }
 }

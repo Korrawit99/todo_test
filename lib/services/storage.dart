@@ -1,54 +1,16 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class StorageService {
-  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final firestore = FirebaseFirestore.instance;
 
-  /// บันทึกค่า
-  Future<String> write(String key, dynamic value) async {
-    try {
-      final docRef = await _firestore.collection(key).add(value);
-      return docRef.id;
-    } catch (e) {
-      print('StorageService.write: $e');
-      rethrow;
-    }
+  Future<void> write(String key, dynamic value) async {
+    var doc = await firestore.collection(key).add(value);
+    await doc.update({'docId': doc.id});
   }
 
-  /// อ่านค่า
-  Future<List<Map<String, dynamic>>> read(String key, {String? uid}) async {
-    try {
-      if (uid != null) {
-        final snapshot = await _firestore
-            .collection(key)
-            .where('uid', isEqualTo: uid)
-            .get();
-        return snapshot.docs.map((e) => e.data()).toList();
-      } else {
-        final snapshot = await _firestore.collection(key).get();
-        return snapshot.docs.map((e) => e.data()).toList();
-      }
-    } catch (e) {
-      print('StorageService.read: $e');
-      return [];
-    }
+  dynamic read(String key, String uid) async {
+    var snapshot =
+        await firestore.collection(key).where('uid', isEqualTo: uid).get();
+    return snapshot.docs.map((doc) => doc.data()).toList();
   }
-
-  /// ลบค่าตาม document id
-  Future<void> delete(String key, String docId) async {
-    try {
-      await _firestore.collection(key).doc(docId).delete();
-    } catch (e) {
-      print('StorageService.delete: $e');
-    }
-  }
-
-  /// อัปเดตค่าตาม document id
-  Future<void> update(String key, String docId, dynamic value) async {
-    try {
-      await _firestore.collection(key).doc(docId).update(value);
-    } catch (e) {
-      print('StorageService.update: $e');
-    }
-  }
-
 }

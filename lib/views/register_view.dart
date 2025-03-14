@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:test2/controller/auth_controller.dart';
 import 'package:test2/widgets/app_text_field.dart';
-
 class RegisterView extends StatelessWidget {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
@@ -41,10 +40,13 @@ class RegisterView extends StatelessWidget {
                 authController.register(emailController.text, passwordController.text);
               },
               child: Text('Register'),
+              
+             
             ),
           ],
         ),
       ),
+      
     );
   }
 }

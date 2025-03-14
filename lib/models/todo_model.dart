@@ -1,26 +1,36 @@
 class TodoModel {
-  String uid;
-  String docId;
   String title;
-  bool isCompleted;
+  String subtitle;
+  bool isDone;
 
-  TodoModel({
-    this.uid = '',
-    this.docId = '',
-    required this.title, 
-    this.isCompleted = false,
-  });
+  String? uid;
+  String? docId;
 
-  TodoModel.fromJson(Map<String, dynamic> json)
-      : title = json['title'],
-        isCompleted = json['isCompleted'],
-        uid = json['uid'],
-        docId = json['docId'];
-  
+  TodoModel(
+    this.title,
+    this.subtitle,
+    this.isDone,
+    {
+      this.uid,
+      this.docId
+    }
+  );
+
   Map<String, dynamic> toJson() => {
     'title': title,
-    'isCompleted': isCompleted,
+    'subtitle': subtitle,
+    'isDone': isDone,
     'uid': uid,
-    'docId': docId,
+    'docId': docId
   };
+
+  TodoModel.fromJson(Map<String, dynamic> json) : 
+    title = json['title'],
+    subtitle = json['subtitle'],
+    isDone = json['isDone'],
+    uid = json['uid'],
+    docId = json['docId'];
+
+  set isCompleted(bool isCompleted) {}
+  
 }

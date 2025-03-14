@@ -1,13 +1,31 @@
 import 'package:test2/controller/todo_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:test2/models/todo_model.dart';
 
-class AddTodoView extends StatelessWidget {
-  AddTodoView({super.key});
-  
+class AddTodoView extends StatefulWidget {
+  AddTodoView({super.key, this.todo});
+  TodoModel? todo;
+
+  @override
+  State<AddTodoView> createState() => _AddTodoViewState();
+}
+
+class _AddTodoViewState extends State<AddTodoView> {
   final TodoController todoController = Get.put(TodoController());
+
   final titleController = TextEditingController();
+
   final subtitleController = TextEditingController();
+
+@override
+void initState() {
+  super.initState();
+  if (widget.todo != null) {
+    titleController.text = widget.todo!.title;
+    subtitleController.text = widget.todo!.subtitle;
+  }
+}
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +46,7 @@ class AddTodoView extends StatelessWidget {
                 if (titleController.text.isEmpty) return;
                 todoController.addTodo(
                   titleController.text,
-                  
+                  subtitleController.text
                 );
                 Get.back();
                 Get.snackbar(
